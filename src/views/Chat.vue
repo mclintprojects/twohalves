@@ -126,6 +126,12 @@ export default {
 			font-family: 'Poppins', Arial, Helvetica, sans-serif;
 			resize: none;
 		}
+
+		img {
+			&:hover {
+				cursor: pointer;
+			}
+		}
 	}
 }
 

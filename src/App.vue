@@ -39,4 +39,19 @@ body {
 		cursor: pointer;
 	}
 }
+
+.findingLoader {
+	font-size: 18px;
+	animation: findingAnim 2s infinite;
+}
+
+@keyframes findingAnim {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
 </style>

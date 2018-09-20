@@ -12,7 +12,7 @@
 			<button id="btn-get-started" class="btn" @click="findOtherHalf">Get started</button>
 		</div>
 		<div v-if="isLoading" style="margin: auto;">
-			<p id="findingLoader">Finding your other half...</p>
+			<p class="findingLoader">Finding your other half...</p>
 		</div>
 	</div>
 </template>
@@ -85,21 +85,6 @@ export default {
 
 	#btn-get-started {
 		margin-top: 24px;
-	}
-}
-
-#findingLoader {
-	font-size: 18px;
-	animation: findingAnim 2s infinite;
-}
-
-@keyframes findingAnim {
-	from {
-		opacity: 1;
-	}
-
-	to {
-		opacity: 0;
 	}
 }
 
