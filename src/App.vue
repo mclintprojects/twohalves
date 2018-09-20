@@ -11,7 +11,7 @@
 }
 
 body {
-	font-family: 'Avenir', Helvetica, Arial, sans-serif;
+	font-family: 'Poppins', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	color: #2c3e50;
@@ -20,16 +20,15 @@ body {
 
 .btn {
 	color: white;
-	background: white;
+	background: #2c3e50;
 	border: 0px solid transparent;
 	border-radius: 30px;
-	box-shadow: 0px 4px 4px rgba(177, 177, 177, 0.37);
 	padding: 16px 24px;
 	text-transform: uppercase;
 	font-size: 12px;
 
 	&:hover {
-		background: rgb(236, 236, 236);
+		background: #1d2b38 !important;
 		cursor: pointer;
 	}
 }

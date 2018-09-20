@@ -3,11 +3,9 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import './registerServiceWorker';
-import io from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io';
 
-const SocketInstance = io('https://twohalves.glitch.me');
-Vue.use(VueSocketIO, SocketInstance);
+Vue.use(VueSocketIO, 'https://twohalves.glitch.me');
 
 Vue.config.productionTip = false;
 
