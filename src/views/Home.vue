@@ -16,8 +16,11 @@ export default {
 	},
 	async created() {
 		try {
+			console.log(JSON.stringify(this.socket));
 			this.socket.emit('SEND_MESSAGE', { content: 'Hi' });
-		} catch (err) {}
+		} catch (err) {
+			console.log(err);
+		}
 	}
 };
 </script>
