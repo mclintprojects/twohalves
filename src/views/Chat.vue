@@ -12,6 +12,12 @@
                 <img @click="sendMessage" src="img/baseline-send-24px.svg" alt="send_message"/>
             </div>
         </div>
+        <div id="yay-or-nay">
+            <div>
+                <img src="" alt="yay">
+                <p>Yay!</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -21,15 +27,25 @@ export default {
 		return {
 			timeSecs: 7 * 60,
 			messages: [],
-			message: ''
+			message: '',
+			timer: null,
+			outgoingTone: new Audio(
+				'https://res.cloudinary.com/mclint-cdn/video/upload/v1537476327/twohalves/pull-out.mp3'
+			),
+			incomingTone: new Audio(
+				'https://res.cloudinary.com/mclint-cdn/video/upload/v1537476327/twohalves/communication-channel.mp3'
+			)
 		};
 	},
 	computed: {
 		timeRemaining() {
-			const mins = Math.floor(this.timeSecs / 60);
-			const secs = this.timeSecs - mins * 60;
+			if (this.timeSecs == 0) return '';
+			else {
+				const mins = Math.floor(this.timeSecs / 60);
+				const secs = this.timeSecs - mins * 60;
 
-			return `0${mins}:${secs <= 9 ? `0${secs}` : secs}`;
+				return `0${mins}:${secs <= 9 ? `0${secs}` : secs}`;
+			}
 		},
 		chatId() {
 			return this.$store.getters.chatId;
@@ -44,16 +60,23 @@ export default {
 		}
 	},
 	methods: {
-		readMessage(data) {
+		readIncomingMessage(data) {
 			if (this.id != data.senderId) {
 				this.messages.push({
 					content: data.message,
 					senderId: data.senderId
 				});
+
+				this.incomingTone.play();
 			}
 		},
 		updateTime() {
 			this.timeSecs = this.timeSecs - 1;
+			if (this.timeSecs <= 0) {
+				clearInterval(this.timer);
+				this.timeSecs = 0;
+				this.timer = null;
+			}
 		},
 		sendMessage() {
 			if (this.message.length > 0) {
@@ -68,6 +91,7 @@ export default {
 					senderId: this.id
 				});
 				this.message = '';
+				this.outgoingTone.play();
 			}
 		},
 		isOutgoing(senderId) {
@@ -77,8 +101,8 @@ export default {
 	},
 	created() {
 		if (this.chatId) {
-			this.$socket.on(this.chatId, this.readMessage);
-			setInterval(this.updateTime, 1000);
+			this.$socket.on(this.chatId, this.readIncomingMessage);
+			this.timer = setInterval(this.updateTime, 1000);
 		}
 	},
 	destroyed() {
@@ -100,6 +124,7 @@ export default {
 		font-size: 40px;
 		border-radius: 10px;
 		margin-top: 10px;
+		animation: timerAnim 1s infinite;
 	}
 
 	#messages-container {
@@ -132,6 +157,15 @@ export default {
 				cursor: pointer;
 			}
 		}
+	}
+}
+
+@keyframes timerAnim {
+	from {
+		transform: rotateX(0deg);
+	}
+	to {
+		transform: rotateX(360deg);
 	}
 }
 
