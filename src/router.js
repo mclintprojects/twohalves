@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Chat from './views/Chat.vue';
 import DateLeft from './views/DateLeft.vue';
+import Mutuals from './views/Mutuals.vue';
 
 Vue.use(Router);
 
@@ -24,6 +25,11 @@ export default new Router({
 			path: '/date-left',
 			name: 'date-left',
 			component: DateLeft
+		},
+		{
+			path: '/mutuals/:username',
+			name: 'mutuals',
+			component: Mutuals
 		}
 	]
 });
