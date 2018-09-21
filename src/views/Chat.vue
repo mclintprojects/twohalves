@@ -15,6 +15,14 @@
                 <button @click="sendMessage" class="btn">Send</button>
             </div>
         </div>
+        <div id="yay-or-nay">
+            <h3>Ring ring! Date over.</h3>
+            <p>Are you interested in getting to know this person better?</p>
+            <div>
+                <button class="btn">Yes</button>
+                <button class="btn">No</button>
+            </div>
+        </div>
         <div v-if="isLoading" style="margin: auto;">
 			<p class="findingLoader">Finding your other half...</p>
 		</div>
@@ -189,6 +197,28 @@ export default {
 			margin-top: 16px;
 		}
 	}
+}
+
+#yay-or-nay{
+    text-align: center;
+    padding: 16px;
+    background: #f25151;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1000;
+
+    p{
+        width: 80%;
+        margin: auto;
+    }
+
+    div{
+        display: flex;
+        width: 50%;
+        margin: auto;
+        margin-top: 24px;
+        justify-content: space-around;
+    }
 }
 
 .one-min-to-go {
