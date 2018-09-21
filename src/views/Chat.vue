@@ -69,6 +69,12 @@ export default {
 		},
 		oneMinToGo() {
 			return this.timeSecs <= 60;
+		},
+		username(){
+			return this.$store.getters.username;
+		},
+		otherUsername(){
+			return this.$store.getters.otherUsername;
 		}
 	},
 	sockets: {
@@ -78,6 +84,7 @@ export default {
 		found_other_half(data) {
 			if (this.id == data.occupant1 || this.id == data.occupant2) {
 				this.isLoading = false;
+				this.$store.dispatch('setOtherUsername', data.usernames.find(name => this.username != name));
 				this.$store.dispatch('setChatId', data.chatId);
 				this.initializeChat();
 			}
@@ -89,7 +96,7 @@ export default {
 	methods: {
 		initializeChat() {
 			this.$socket.on(this.chatId, this.readIncomingMessage);
-			this.timeSecs = 10;
+			this.timeSecs = 20;
 			this.timer = setInterval(this.updateTime, 1000);
 			this.messages = [];
 			this.message = '';
@@ -138,10 +145,11 @@ export default {
 			this.$socket.emit('half_is_going_on_next_date', { identifier: id });
 		},
 		saveInterest() {
-			this.$socket.emit('half_is_saving_interest', { id: this.id });
+			this.$socket.emit('half_is_saving_interest', { id: this.id,
+			 username: this.username, interestedIn: this.otherUsername });
 			this.isLoading = true;
 		},
-		notifyUserIsLeaving() {
+		notifyUserIsLeaving(event) {
 			this.$socket.emit('half_is_leaving_chat');
 		}
 	},

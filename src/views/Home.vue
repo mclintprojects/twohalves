@@ -8,9 +8,11 @@
 			<p>Once 6 minutes elapses, you'll both be asked whether either of you are interested in the other and your answers will be recorded. Your chat history disappears forever and you'll both be matched with new dates.</p>
 			<br>
 			<p>You can view your mutuals anytime. Mutuals are dates you were interested in that showed the same interest in you.</p>
+			<br>
+			<p>For more information on speed dating, follow this <a href="https://www.randemotyl.cz/en/speed-dating/how-does-speed-dating-work">link</a></p>
 
 			<div>
-				<input v-model="username" class="input" type="text" placeholder="Enter your Twitter handle" style="width: 40%; margin-right: 16px" />
+				<input v-model="username" v.keyup.enter="findOtherHalf" class="input" type="text" placeholder="Enter your Twitter handle" style="width: 40%; margin-right: 16px" />
 				<button id="btn-get-started" class="btn" @click="findOtherHalf">Get started</button>
 			</div>
 		</div>
@@ -39,6 +41,7 @@ export default {
 		found_other_half(data) {
 			if (this.id == data.occupant1 || this.id == data.occupant2) {
 				this.$store.dispatch('setChatId', data.chatId);
+				this.$store.dispatch('setOtherUsername', data.usernames.find(name => name != this.username));
 				this.$router.push({ name: 'chat' });
 			}
 		}
