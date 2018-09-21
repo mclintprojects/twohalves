@@ -41,7 +41,10 @@ export default {
 		found_other_half(data) {
 			if (this.id == data.occupant1 || this.id == data.occupant2) {
 				this.$store.dispatch('setChatId', data.chatId);
-				this.$store.dispatch('setOtherUsername', data.usernames.find(name => name != this.username));
+				this.$store.dispatch(
+					'setOtherUsername',
+					data.usernames.find(name => name != this.username)
+				);
 				this.$router.push({ name: 'chat' });
 			}
 		}

@@ -27,7 +27,7 @@ export default new Router({
 			component: DateLeft
 		},
 		{
-			path: '/mutuals/:username',
+			path: '/mutuals',
 			name: 'mutuals',
 			component: Mutuals
 		}

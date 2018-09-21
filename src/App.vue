@@ -33,6 +33,13 @@ body {
 	height: 100vh;
 }
 
+.loader {
+	background: tomato;
+	border-radius: 50%;
+	padding: 4px;
+	margin: auto;
+}
+
 .btn {
 	color: white;
 	background: #2c3e50;

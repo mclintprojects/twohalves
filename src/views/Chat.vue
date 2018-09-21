@@ -3,7 +3,7 @@
         <div id="chat-container" v-if="!isLoading">
             <div id="chat-header">
                 <p id="countdown-text" :class="{'one-min-to-go': oneMinToGo}">{{timeRemaining}}</p>
-                <button class="btn btn-small">View your mutuals</button>
+                <button class="btn btn-small" @click="showMutuals">View your mutuals</button>
             </div>
             <div id="messages-container">
                 <div v-for="(msg, index) in messages" :key="index" class="chat-bubble" :class="{incoming: !isOutgoing(msg.senderId), outgoing: isOutgoing(msg.senderId)}">
@@ -70,10 +70,10 @@ export default {
 		oneMinToGo() {
 			return this.timeSecs <= 60;
 		},
-		username(){
+		username() {
 			return this.$store.getters.username;
 		},
-		otherUsername(){
+		otherUsername() {
 			return this.$store.getters.otherUsername;
 		}
 	},
@@ -84,7 +84,10 @@ export default {
 		found_other_half(data) {
 			if (this.id == data.occupant1 || this.id == data.occupant2) {
 				this.isLoading = false;
-				this.$store.dispatch('setOtherUsername', data.usernames.find(name => this.username != name));
+				this.$store.dispatch(
+					'setOtherUsername',
+					data.usernames.find(name => this.username != name)
+				);
 				this.$store.dispatch('setChatId', data.chatId);
 				this.initializeChat();
 			}
@@ -96,7 +99,7 @@ export default {
 	methods: {
 		initializeChat() {
 			this.$socket.on(this.chatId, this.readIncomingMessage);
-			this.timeSecs = 20;
+			this.timeSecs = 6 * 60;
 			this.timer = setInterval(this.updateTime, 1000);
 			this.messages = [];
 			this.message = '';
@@ -145,12 +148,18 @@ export default {
 			this.$socket.emit('half_is_going_on_next_date', { identifier: id });
 		},
 		saveInterest() {
-			this.$socket.emit('half_is_saving_interest', { id: this.id,
-			 username: this.username, interestedIn: this.otherUsername });
+			this.$socket.emit('half_is_saving_interest', {
+				id: this.id,
+				username: this.username,
+				interestedIn: this.otherUsername
+			});
 			this.isLoading = true;
 		},
 		notifyUserIsLeaving(event) {
 			this.$socket.emit('half_is_leaving_chat');
+		},
+		showMutuals() {
+			window.open(`${this.location.href.origin}/mutuals`, '_blank');
 		}
 	},
 	created() {
