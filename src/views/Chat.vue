@@ -11,16 +11,16 @@
                 </div>
             </div>
             <div id="input-container">
-                <textarea v-model="message" @keyup.enter="sendMessage" placeholder="Type something to send.." rows="3" />
-                <button @click="sendMessage" class="btn">Send</button>
+                <textarea v-model="message" :disabled="datePaused" @keyup.enter="sendMessage" placeholder="Type something to send.." rows="3" />
+                <button @click="sendMessage" :disabled="datePaused" class="btn">Send</button>
             </div>
         </div>
-        <div id="yay-or-nay">
+        <div id="yay-or-nay" v-if="datePaused && !isLoading">
             <h3>Ring ring! Date over.</h3>
             <p>Are you interested in getting to know this person better?</p>
             <div>
-                <button class="btn">Yes</button>
-                <button class="btn">No</button>
+                <button @click="saveInterest" class="btn">Yes</button>
+                <button @click="findNextDate" class="btn">No</button>
             </div>
         </div>
         <div v-if="isLoading" style="margin: auto;">
@@ -31,12 +31,14 @@
 
 <script>
 import randomstr from 'random-string';
+import axios from 'axios';
 import { setTimeout, clearInterval } from 'timers';
 
 export default {
 	data() {
 		return {
 			isLoading: false,
+			datePaused: false,
 			timeSecs: 0,
 			messages: [],
 			message: '',
@@ -79,12 +81,15 @@ export default {
 				this.$store.dispatch('setChatId', data.chatId);
 				this.initializeChat();
 			}
+		},
+		saved_interest(data) {
+			if (this.id == data.id) this.findNextDate();
 		}
 	},
 	methods: {
 		initializeChat() {
 			this.$socket.on(this.chatId, this.readIncomingMessage);
-			this.timeSecs = 10 * 60;
+			this.timeSecs = 10;
 			this.timer = setInterval(this.updateTime, 1000);
 			this.messages = [];
 			this.message = '';
@@ -101,9 +106,8 @@ export default {
 		},
 		updateTime() {
 			if (this.timeSecs <= 0) {
-				this.isLoading = true;
 				window.clearInterval(this.timer);
-				this.findNextDate();
+				this.datePaused = true;
 			} else this.timeSecs = this.timeSecs - 1;
 		},
 		sendMessage() {
@@ -127,13 +131,25 @@ export default {
 			return false;
 		},
 		findNextDate() {
+			this.datePaused = false;
+			this.isLoading = true;
 			const id = randomstr({ length: 10 });
 			this.$store.dispatch('setIdentifier', id);
 			this.$socket.emit('half_is_going_on_next_date', { identifier: id });
+		},
+		saveInterest() {
+			this.$socket.emit('half_is_saving_interest', { id: this.id });
+			this.isLoading = true;
+		},
+		notifyUserIsLeaving() {
+			this.$socket.emit('half_is_leaving_chat');
 		}
 	},
 	created() {
-		if (this.chatId) this.initializeChat();
+		if (this.chatId) {
+			this.initializeChat();
+			window.addEventListener('beforeunload', this.notifyUserIsLeaving);
+		}
 	},
 	destroyed() {
 		this.$socket.emit('half_is_leaving_chat');
@@ -148,21 +164,21 @@ export default {
 	border-radius: 10px;
 	border: 1px solid rgb(218, 218, 218);
 
-    #chat-header{
-        display: flex;
-        padding: 16px;
-        width: calc(100% -32px);
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid rgb(218, 218, 218);
+	#chat-header {
+		display: flex;
+		padding: 16px;
+		width: calc(100% -32px);
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 1px solid rgb(218, 218, 218);
 
-        #countdown-text {
-            font-size: 40px;
-        }
+		#countdown-text {
+			font-size: 40px;
+		}
 
-        button{
-        }
-    }
+		button {
+		}
+	}
 
 	#messages-container {
 		height: 40vh;
@@ -199,26 +215,26 @@ export default {
 	}
 }
 
-#yay-or-nay{
-    text-align: center;
-    padding: 16px;
-    background: #f25151;
-    border-radius: 10px;
-    position: absolute;
-    z-index: 1000;
+#yay-or-nay {
+	text-align: center;
+	padding: 16px;
+	background: #f25151;
+	border-radius: 10px;
+	position: absolute;
+	z-index: 1000;
 
-    p{
-        width: 80%;
-        margin: auto;
-    }
+	p {
+		width: 80%;
+		margin: auto;
+	}
 
-    div{
-        display: flex;
-        width: 50%;
-        margin: auto;
-        margin-top: 24px;
-        justify-content: space-around;
-    }
+	div {
+		display: flex;
+		width: 50%;
+		margin: auto;
+		margin-top: 24px;
+		justify-content: space-around;
+	}
 }
 
 .one-min-to-go {

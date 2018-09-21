@@ -24,6 +24,9 @@ export default {
 	computed: {
 		id() {
 			return this.$store.getters.identifier;
+		},
+		username() {
+			return this.$store.getters.username;
 		}
 	},
 	sockets: {
@@ -39,7 +42,10 @@ export default {
 			this.isLoading = true;
 			const id = randomstr({ length: 10 });
 			this.$store.dispatch('setIdentifier', id);
-			this.$socket.emit('finding_other_half', { identifier: id });
+			this.$socket.emit('finding_other_half', {
+				identifier: id,
+				username: this.username
+			});
 		}
 	}
 };

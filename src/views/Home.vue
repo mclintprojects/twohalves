@@ -3,11 +3,11 @@
 		<div id="content" v-if="!isLoading">
 			<h1>How does Two Halves work?</h1>
 			<br>
-			<p>Two Halves is an ephemeral speed dating app. You'll be matched with a stranger (irrespective of gender) and given ten (10) minutes to get to know them.</p>
+			<p>Two Halves is an ephemeral speed dating app. You'll be matched with a stranger (irrespective of gender) and given six (6) minutes to get to know them.</p>
 			<br>
-			<p>Once 10 minutes elapses, you'll both be asked whether either of you are interested in the other and your answers will be recorded. Your chat history disappears forever and you'll both be matched with new dates.</p>
+			<p>Once 6 minutes elapses, you'll both be asked whether either of you are interested in the other and your answers will be recorded. Your chat history disappears forever and you'll both be matched with new dates.</p>
 			<br>
-			<p>At anytime you can choose to view your mutuals. Mutuals are dates you were interested in that showed the same interest in you.</p>
+			<p>You can view your mutuals anytime. Mutuals are dates you were interested in that showed the same interest in you.</p>
 
 			<div>
 				<input v-model="username" class="input" type="text" placeholder="Enter your Twitter handle" style="width: 40%; margin-right: 16px" />
@@ -45,12 +45,24 @@ export default {
 	},
 	methods: {
 		findOtherHalf() {
-			this.isLoading = true;
-			localStorage.setItem('username', this.username);
-			const id = randomstr({ length: 10 });
-			this.$store.dispatch('setIdentifier', id);
-			this.$socket.emit('finding_other_half', { identifier: id, username: this.username });
+			if (this.username.length > 0) {
+				this.isLoading = true;
+				localStorage.setItem('username', this.username);
+				const id = randomstr({ length: 10 });
+				this.$store.dispatch('setIdentifier', id);
+				this.$socket.emit('finding_other_half', {
+					identifier: id,
+					username: this.username
+				});
+			} else {
+				alert(
+					"Please provide your Twitter handle. We'll only share it with your mutuals."
+				);
+			}
 		}
+	},
+	created() {
+		this.username = this.$store.getters.username;
 	}
 };
 </script>

@@ -6,10 +6,10 @@
 
 <script>
 export default {
-	created(){
+	created() {
 		this.$store.dispatch('setUsername', localStorage.getItem('username'));
 	}
-}
+};
 </script>
 
 <style lang="scss">
@@ -43,12 +43,21 @@ body {
 	font-size: 12px;
 
 	&:hover {
-		background: #1d2b38 !important;
+		background: #1d2b38;
 		cursor: pointer;
+	}
+
+	&:disabled {
+		background: gray;
+		cursor: not-allowed;
+	}
+
+	&:disabled:hover {
+		background: rgb(97, 97, 97);
 	}
 }
 
-.btn-small{
+.btn-small {
 	padding: 10px;
 	font-size: 10px;
 }
