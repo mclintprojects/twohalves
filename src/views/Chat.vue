@@ -60,7 +60,7 @@ export default {
 	},
 	sockets: {
 		half_disconnected(data) {
-			this.$router.push({ name: 'date-left' });
+			if (this.chatId == data.chatId) this.$router.push({ name: 'date-left' });
 		},
 		found_other_half(data) {
 			if (this.id == data.occupant1 || this.id == data.occupant2) {
