@@ -1,7 +1,7 @@
 <template>
     <div class="app">
         <div id="chat-container" v-if="!isLoading">
-            <p id="countdown-text" :style="{oneMinToGo}">{{timeRemaining}}</p>
+            <p id="countdown-text" :class="{'one-min-to-go': oneMinToGo}">{{timeRemaining}}</p>
             <div id="messages-container">
                 <div v-for="(msg, index) in messages" :key="index" class="chat-bubble" :class="{incoming: !isOutgoing(msg.senderId), outgoing: isOutgoing(msg.senderId)}">
                     <p>{{msg.content}}</p>
@@ -20,14 +20,13 @@
 
 <script>
 import randomstr from 'random-string';
-import { setTimeout } from 'timers';
-const MAX_DATE_MINS = 10;
+import { setTimeout, clearInterval } from 'timers';
 
 export default {
 	data() {
 		return {
 			isLoading: false,
-			timeSecs: MAX_DATE_MINS,
+			timeSecs: 0,
 			messages: [],
 			message: '',
 			timer: null,
@@ -56,9 +55,7 @@ export default {
 			return this.$store.getters.identifier;
 		},
 		oneMinToGo() {
-			if (this.timeSecs <= 60) return 'color: tomato';
-
-			return '';
+			return this.timeSecs <= 60;
 		}
 	},
 	sockets: {
@@ -76,7 +73,10 @@ export default {
 	methods: {
 		initializeChat() {
 			this.$socket.on(this.chatId, this.readIncomingMessage);
+			this.timeSecs = 30;
 			this.timer = setInterval(this.updateTime, 1000);
+			this.messages = [];
+			this.message = '';
 		},
 		readIncomingMessage(data) {
 			if (this.id != data.senderId) {
@@ -89,8 +89,11 @@ export default {
 			}
 		},
 		updateTime() {
-			this.timeSecs = this.timeSecs - 1;
-			if (this.timeSecs <= 0) this.findNextDate();
+			if (this.timeSecs <= 0) {
+				this.isLoading = true;
+				window.clearInterval(this.timer);
+				this.findNextDate();
+			} else this.timeSecs = this.timeSecs - 1;
 		},
 		sendMessage() {
 			if (this.message.length > 0) {
@@ -113,21 +116,9 @@ export default {
 			return false;
 		},
 		findNextDate() {
-			this.isLoading = true;
-			this.messages = [];
-			this.message = '';
-			this.timeSecs = 10 * 60;
-
-			this.$socket.emit('half_is_going_on_next_date');
-
-			setTimeout(
-				function() {
-					const id = randomstr({ length: 10 });
-					this.$store.dispatch('setIdentifier', id);
-					this.$socket.emit('finding_other_half', { identifier: id });
-				}.bind(this),
-				4000
-			);
+			const id = randomstr({ length: 10 });
+			this.$store.dispatch('setIdentifier', id);
+			this.$socket.emit('half_is_going_on_next_date', { identifier: id });
 		}
 	},
 	created() {
@@ -159,7 +150,7 @@ export default {
 		margin-bottom: 16px;
 		background: white;
 		padding: 16px;
-		overflow-y: wrap;
+		overflow-y: scroll;
 	}
 
 	#input-container {
@@ -195,20 +186,8 @@ export default {
 	}
 }
 
-#yay-or-nay {
-	position: absolute;
-	background: #ff5a5a;
-	border-radius: 10px;
-	padding: 16px;
-	text-align: center;
-
-	#choice-container {
-		display: flex;
-		width: 60%;
-		margin: auto;
-		justify-content: space-between;
-		margin-top: 24px;
-	}
+.one-min-to-go {
+	color: rgb(255, 71, 80);
 }
 
 .chat-bubble {
