@@ -46,7 +46,13 @@ export default {
 				identifier: id,
 				username: this.username
 			});
+		},
+		notifyUserIsLeaving(event) {
+			this.$socket.emit('half_is_leaving_chat');
 		}
+	},
+	created() {
+		window.addEventListener('beforeunload', this.notifyUserIsLeaving);
 	}
 };
 </script>

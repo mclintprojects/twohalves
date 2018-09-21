@@ -65,10 +65,14 @@ export default {
 					"Please provide your Twitter handle. We'll only share it with your mutuals."
 				);
 			}
+		},
+		notifyUserIsLeaving(event) {
+			this.$socket.emit('half_is_leaving_chat');
 		}
 	},
 	created() {
 		this.username = this.$store.getters.username;
+		window.addEventListener('beforeunload', this.notifyUserIsLeaving);
 	}
 };
 </script>
