@@ -73,7 +73,7 @@ export default {
 	methods: {
 		initializeChat() {
 			this.$socket.on(this.chatId, this.readIncomingMessage);
-			this.timeSecs = 30;
+			this.timeSecs = 10 * 60;
 			this.timer = setInterval(this.updateTime, 1000);
 			this.messages = [];
 			this.message = '';
