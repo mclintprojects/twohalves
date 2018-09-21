@@ -132,7 +132,7 @@ export default {
 
 <style lang="scss">
 #chat-container {
-	width: 20%;
+	width: 350px;
 	background: white;
 	border-radius: 10px;
 	border: 1px solid rgb(218, 218, 218);
@@ -223,7 +223,6 @@ export default {
 @media screen and (max-width: 768px) {
 	#chat-container {
 		width: 100%;
-		height: 100vh;
 		box-shadow: none;
 		border-radius: 0px;
 

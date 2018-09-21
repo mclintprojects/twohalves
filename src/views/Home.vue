@@ -1,8 +1,6 @@
 <template>
 	<div class="app" id="home-container">
 		<div id="content" v-if="!isLoading">
-			<img id="logo" src="img/logo.svg" />
-
 			<h1>How does Two Halves work?</h1>
 			<p>Two Halves is an ephemeral speed dating app. You'll be matched with a stranger (irrespective of gender) and given ten (10) minutes to get to know them.</p>
 			<br>
@@ -73,13 +71,13 @@ export default {
 	margin: auto;
 	z-index: 1000;
 
+	+ h1 {
+		margin-bottom: 8px;
+	}
+
 	p {
 		font-size: 15px;
 		color: rgba(44, 62, 80, 0.8);
-	}
-
-	h1:last-child {
-		margin-top: 16px;
 	}
 
 	#btn-get-started {
