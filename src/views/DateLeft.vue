@@ -28,7 +28,6 @@ export default {
 	},
 	sockets: {
 		found_other_half(data) {
-			console.log(data);
 			if (this.id == data.occupant1 || this.id == data.occupant2) {
 				this.$store.dispatch('setChatId', data.chatId);
 				this.$router.push({ name: 'chat' });

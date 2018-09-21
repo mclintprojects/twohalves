@@ -4,11 +4,11 @@
 			<img id="logo" src="img/logo.svg" />
 
 			<h1>How does Two Halves work?</h1>
-			<p>Two Halves is an ephemeral speed dating app. You'll be matched with a stranger (irrespective of gender) and have seven (7) minutes to get to know them.</p>
+			<p>Two Halves is an ephemeral speed dating app. You'll be matched with a stranger (irrespective of gender) and given ten (10) minutes to get to know them.</p>
 			<br>
-			<p>Once 7 minutes elapses, you'll both be asked to "thumbs up" or "thumbs down" your date. A thumbs up from both parties will resume the chat and it'd last indefinitely. You can use that time to get to know your new friend, potential romantic partner/hookup better and exchange contact information.</p>
+			<p>Once 10 minutes elapses, the chat history disappears forever and you'll both be matched with new dates. Use the final minutes of the date to exchange contact information if you so wish.</p>
 			<br>
-			<p>A thumbs down from either party will cause the chat to disappear forever and you'll then be matched with another stranger.</p>
+			<p>Most importantly, don't forget to have fun!</p>
 			<button id="btn-get-started" class="btn" @click="findOtherHalf">Get started</button>
 		</div>
 		<div v-if="isLoading" style="margin: auto;">
@@ -33,7 +33,6 @@ export default {
 	},
 	sockets: {
 		found_other_half(data) {
-			console.log(data);
 			if (this.id == data.occupant1 || this.id == data.occupant2) {
 				this.$store.dispatch('setChatId', data.chatId);
 				this.$router.push({ name: 'chat' });

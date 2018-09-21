@@ -1,7 +1,7 @@
 <template>
     <div class="app">
-        <div id="chat-container">
-            <p id="countdown-text">{{timeRemaining}}</p>
+        <div id="chat-container" v-if="!isLoading">
+            <p id="countdown-text" :style="{oneMinToGo}">{{timeRemaining}}</p>
             <div id="messages-container">
                 <div v-for="(msg, index) in messages" :key="index" class="chat-bubble" :class="{incoming: !isOutgoing(msg.senderId), outgoing: isOutgoing(msg.senderId)}">
                     <p>{{msg.content}}</p>
@@ -12,20 +12,22 @@
                 <img @click="sendMessage" src="img/baseline-send-24px.svg" alt="send_message"/>
             </div>
         </div>
-        <div id="yay-or-nay">
-            <div>
-                <img src="" alt="yay">
-                <p>Yay!</p>
-            </div>
-        </div>
+        <div v-if="isLoading" style="margin: auto;">
+			<p class="findingLoader">Finding your other half...</p>
+		</div>
     </div>
 </template>
 
 <script>
+import randomstr from 'random-string';
+import { setTimeout } from 'timers';
+const MAX_DATE_MINS = 10;
+
 export default {
 	data() {
 		return {
-			timeSecs: 7 * 60,
+			isLoading: false,
+			timeSecs: MAX_DATE_MINS,
 			messages: [],
 			message: '',
 			timer: null,
@@ -52,14 +54,30 @@ export default {
 		},
 		id() {
 			return this.$store.getters.identifier;
+		},
+		oneMinToGo() {
+			if (this.timeSecs <= 60) return 'color: tomato';
+
+			return '';
 		}
 	},
 	sockets: {
-		half_disconnected() {
+		half_disconnected(data) {
 			this.$router.push({ name: 'date-left' });
+		},
+		found_other_half(data) {
+			if (this.id == data.occupant1 || this.id == data.occupant2) {
+				this.isLoading = false;
+				this.$store.dispatch('setChatId', data.chatId);
+				this.initializeChat();
+			}
 		}
 	},
 	methods: {
+		initializeChat() {
+			this.$socket.on(this.chatId, this.readIncomingMessage);
+			this.timer = setInterval(this.updateTime, 1000);
+		},
 		readIncomingMessage(data) {
 			if (this.id != data.senderId) {
 				this.messages.push({
@@ -72,11 +90,7 @@ export default {
 		},
 		updateTime() {
 			this.timeSecs = this.timeSecs - 1;
-			if (this.timeSecs <= 0) {
-				clearInterval(this.timer);
-				this.timeSecs = 0;
-				this.timer = null;
-			}
+			if (this.timeSecs <= 0) this.findNextDate();
 		},
 		sendMessage() {
 			if (this.message.length > 0) {
@@ -97,16 +111,30 @@ export default {
 		isOutgoing(senderId) {
 			if (this.id == senderId) return true;
 			return false;
+		},
+		findNextDate() {
+			this.isLoading = true;
+			this.messages = [];
+			this.message = '';
+			this.timeSecs = 10 * 60;
+
+			this.$socket.emit('half_is_going_on_next_date');
+
+			setTimeout(
+				function() {
+					const id = randomstr({ length: 10 });
+					this.$store.dispatch('setIdentifier', id);
+					this.$socket.emit('finding_other_half', { identifier: id });
+				}.bind(this),
+				4000
+			);
 		}
 	},
 	created() {
-		if (this.chatId) {
-			this.$socket.on(this.chatId, this.readIncomingMessage);
-			this.timer = setInterval(this.updateTime, 1000);
-		}
+		if (this.chatId) this.initializeChat();
 	},
 	destroyed() {
-		this.$socket.emit('half_is_leaving_chat', { chatId: this.chatId });
+		this.$socket.emit('half_is_leaving_chat');
 	}
 };
 </script>
@@ -124,7 +152,6 @@ export default {
 		font-size: 40px;
 		border-radius: 10px;
 		margin-top: 10px;
-		animation: timerAnim 1s infinite;
 	}
 
 	#messages-container {
@@ -150,22 +177,37 @@ export default {
 			width: 90%;
 			font-family: 'Poppins', Arial, Helvetica, sans-serif;
 			resize: none;
+
+			&:disabled {
+				cursor: not-allowed;
+			}
 		}
 
 		img {
 			&:hover {
 				cursor: pointer;
 			}
+
+			&:disabled {
+				cursor: not-allowed;
+			}
 		}
 	}
 }
 
-@keyframes timerAnim {
-	from {
-		transform: rotateX(0deg);
-	}
-	to {
-		transform: rotateX(360deg);
+#yay-or-nay {
+	position: absolute;
+	background: #ff5a5a;
+	border-radius: 10px;
+	padding: 16px;
+	text-align: center;
+
+	#choice-container {
+		display: flex;
+		width: 60%;
+		margin: auto;
+		justify-content: space-between;
+		margin-top: 24px;
 	}
 }
 
