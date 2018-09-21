@@ -159,7 +159,7 @@ export default {
 			this.$socket.emit('half_is_leaving_chat');
 		},
 		showMutuals() {
-			window.open(`${this.location.href.origin}/mutuals`, '_blank');
+			window.open(`${window.location.origin}/mutuals`, '_blank');
 		}
 	},
 	created() {
