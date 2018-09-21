@@ -9,7 +9,7 @@
             </div>
             <div id="input-container">
                 <textarea v-model="message" @keyup.enter="sendMessage" placeholder="Type something to send.." rows="3" />
-                <img @click="sendMessage" src="img/baseline-send-24px.svg" alt="send_message"/>
+                <button @click="sendMessage" class="btn">Send</button>
             </div>
         </div>
         <div v-if="isLoading" style="margin: auto;">
@@ -132,7 +132,7 @@ export default {
 
 <style lang="scss">
 #chat-container {
-	width: 350px;
+	width: 30%;
 	background: white;
 	border-radius: 10px;
 	border: 1px solid rgb(218, 218, 218);
@@ -146,7 +146,7 @@ export default {
 	}
 
 	#messages-container {
-		height: 66vh;
+		height: 40vh;
 		margin-bottom: 16px;
 		background: white;
 		padding: 16px;
@@ -155,9 +155,8 @@ export default {
 
 	#input-container {
 		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
-		width: calc(100% - 32px);
+		flex-direction: column;
+		justify-content: flex-end;
 		padding: 16px 16px 10px 16px;
 		border-top: 1px solid rgb(218, 218, 218);
 
@@ -165,7 +164,7 @@ export default {
 			background: transparent;
 			border: 0px solid transparent;
 			font-size: 16px;
-			width: 90%;
+			width: 100%;
 			font-family: 'Poppins', Arial, Helvetica, sans-serif;
 			resize: none;
 
@@ -174,14 +173,9 @@ export default {
 			}
 		}
 
-		img {
-			&:hover {
-				cursor: pointer;
-			}
-
-			&:disabled {
-				cursor: not-allowed;
-			}
+		button {
+			margin: auto;
+			margin-top: 16px;
 		}
 	}
 }
@@ -224,10 +218,10 @@ export default {
 	#chat-container {
 		width: 100%;
 		box-shadow: none;
-		border-radius: 0px;
+		border: none;
 
 		#messages-container {
-			height: 75vh;
+			height: 50vh;
 		}
 	}
 }
