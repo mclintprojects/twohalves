@@ -1,7 +1,10 @@
 <template>
     <div class="app">
         <div id="chat-container" v-if="!isLoading">
-            <p id="countdown-text" :class="{'one-min-to-go': oneMinToGo}">{{timeRemaining}}</p>
+            <div id="chat-header">
+                <p id="countdown-text" :class="{'one-min-to-go': oneMinToGo}">{{timeRemaining}}</p>
+                <button class="btn btn-small">View your mutuals</button>
+            </div>
             <div id="messages-container">
                 <div v-for="(msg, index) in messages" :key="index" class="chat-bubble" :class="{incoming: !isOutgoing(msg.senderId), outgoing: isOutgoing(msg.senderId)}">
                     <p>{{msg.content}}</p>
@@ -137,13 +140,21 @@ export default {
 	border-radius: 10px;
 	border: 1px solid rgb(218, 218, 218);
 
-	#countdown-text {
-		margin: auto;
-		text-align: center;
-		font-size: 40px;
-		border-radius: 10px;
-		margin-top: 10px;
-	}
+    #chat-header{
+        display: flex;
+        padding: 16px;
+        width: calc(100% -32px);
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgb(218, 218, 218);
+
+        #countdown-text {
+            font-size: 40px;
+        }
+
+        button{
+        }
+    }
 
 	#messages-container {
 		height: 40vh;

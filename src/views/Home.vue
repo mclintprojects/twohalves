@@ -2,12 +2,17 @@
 	<div class="app" id="home-container">
 		<div id="content" v-if="!isLoading">
 			<h1>How does Two Halves work?</h1>
+			<br>
 			<p>Two Halves is an ephemeral speed dating app. You'll be matched with a stranger (irrespective of gender) and given ten (10) minutes to get to know them.</p>
 			<br>
-			<p>Once 10 minutes elapses, the chat history disappears forever and you'll both be matched with new dates. Use the final minutes of the date to exchange contact information if you so wish.</p>
+			<p>Once 10 minutes elapses, you'll both be asked whether either of you are interested in the other and your answers will be recorded. Your chat history disappears forever and you'll both be matched with new dates.</p>
 			<br>
-			<p>Most importantly, don't forget to have fun!</p>
-			<button id="btn-get-started" class="btn" @click="findOtherHalf">Get started</button>
+			<p>At anytime you can choose to view your mutuals. Mutuals are dates you were interested in that showed the same interest in you.</p>
+
+			<div>
+				<input v-model="username" class="input" type="text" placeholder="Enter your Twitter handle" style="width: 40%; margin-right: 16px" />
+				<button id="btn-get-started" class="btn" @click="findOtherHalf">Get started</button>
+			</div>
 		</div>
 		<div v-if="isLoading" style="margin: auto;">
 			<p class="findingLoader">Finding your other half...</p>
@@ -21,7 +26,8 @@ import randomstr from 'random-string';
 export default {
 	data() {
 		return {
-			isLoading: false
+			isLoading: false,
+			username: ''
 		};
 	},
 	computed: {
@@ -40,9 +46,10 @@ export default {
 	methods: {
 		findOtherHalf() {
 			this.isLoading = true;
+			localStorage.setItem('username', this.username);
 			const id = randomstr({ length: 10 });
 			this.$store.dispatch('setIdentifier', id);
-			this.$socket.emit('finding_other_half', { identifier: id });
+			this.$socket.emit('finding_other_half', { identifier: id, username: this.username });
 		}
 	}
 };
@@ -76,8 +83,8 @@ export default {
 	}
 
 	p {
-		font-size: 15px;
-		color: rgba(44, 62, 80, 0.8);
+		font-size: 16px;
+		color: rgba(44, 62, 80, 1);
 	}
 
 	#btn-get-started {

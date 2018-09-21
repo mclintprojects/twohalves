@@ -4,6 +4,14 @@
   </div>
 </template>
 
+<script>
+export default {
+	created(){
+		this.$store.dispatch('setUsername', localStorage.getItem('username'));
+	}
+}
+</script>
+
 <style lang="scss">
 * {
 	margin: 0;
@@ -40,9 +48,21 @@ body {
 	}
 }
 
+.btn-small{
+	padding: 10px;
+	font-size: 10px;
+}
+
 .findingLoader {
 	font-size: 18px;
 	animation: findingAnim 2s infinite;
+}
+
+.input {
+	border: 1px solid #2c3e50;
+	border-radius: 30px;
+	background: white;
+	padding: 16px;
 }
 
 @keyframes findingAnim {
