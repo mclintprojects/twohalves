@@ -1,18 +1,31 @@
-<svg width="572" height="572" viewBox="0 0 572 572" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d)">
-<rect x="30" y="10" width="512" height="512" rx="100" fill="white"/>
-</g>
-<path d="M211.5 335H253.389C268.372 335 280.518 322.854 280.518 307.87V265.259C280.518 227.008 249.51 196 211.259 196C173.036 196 142 227.101 142 265.379C142 303.791 173.144 335 211.5 335Z" stroke="#F25151" stroke-width="30"/>
-<path d="M359.5 335H317.611C302.628 335 290.482 322.854 290.482 307.87V265.259C290.482 227.008 321.49 196 359.741 196C397.964 196 429 227.101 429 265.379C429 303.791 397.856 335 359.5 335Z" stroke="#F25151" stroke-width="30"/>
-<defs>
-<filter id="filter0_d" x="0" y="0" width="572" height="572" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
-<feOffset dy="20"/>
-<feGaussianBlur stdDeviation="15"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.462882 0 0 0 0 0.462882 0 0 0 0 0.462882 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
-</filter>
-</defs>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 714 569" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g transform="matrix(1,0,0,1,-731.798,-545.735)">
+        <g transform="matrix(1,0,0,1,82.3928,-239.24)">
+            <g transform="matrix(1.01854,1.01854,-0.768594,0.768594,850.714,-601.632)">
+                <path d="M1036,895C1036,895 893.301,895 790.136,895C762.517,895 736.03,909.539 716.501,935.419C696.971,961.299 686,996.4 686,1033C686,1033 686,1033 686,1033C686,1109.21 732.623,1171 790.136,1171C893.301,1171 1036,1171 1036,1171L1036,895Z" style="fill:url(#_Linear1);"/>
+            </g>
+            <g>
+                <g transform="matrix(-1.01854,1.01854,0.768594,0.768594,1161.31,-601.632)">
+                    <path d="M1036,1033C1036,996.4 1025.03,961.299 1005.5,935.419C985.97,909.539 959.483,895 931.864,895C887.102,895 834.898,895 790.136,895C762.517,895 736.03,909.539 716.501,935.419C696.971,961.299 686,996.4 686,1033C686,1033 686,1033 686,1033C686,1069.6 696.971,1104.7 716.5,1130.58C736.03,1156.46 762.517,1171 790.135,1171C893.3,1171 1036,1171 1036,1171C1036,1171 1036,1102 1036,1033Z" style="fill:url(#_Linear2);"/>
+                </g>
+                <g transform="matrix(1,0,0,1,1.79725,-19.2028)">
+                    <g transform="matrix(1,0,0,1,-59.5,81.5)">
+                        <circle cx="1136" cy="1006" r="24" style="fill:rgb(255,190,194);"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,-137.475,159.475)">
+                        <circle cx="1136" cy="1006" r="24" style="fill:rgb(255,190,194);"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,18.5,5.5)">
+                        <circle cx="1136" cy="1006" r="24" style="fill:rgb(255,190,194);"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+    <defs>
+        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(350,0,0,276,686,1033)"><stop offset="0" style="stop-color:rgb(255,0,146);stop-opacity:1"/><stop offset="0.53" style="stop-color:rgb(255,130,201);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(255,178,222);stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-158.15,-5.68434e-14,-4.26326e-14,200.875,954.311,1084.2)"><stop offset="0" style="stop-color:rgb(255,0,124);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(245,67,117);stop-opacity:1"/></linearGradient>
+    </defs>
 </svg>
