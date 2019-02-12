@@ -13,7 +13,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "colors";
 :root {
   font-size: 62.5%;
 }
@@ -25,7 +24,7 @@ export default {
 }
 
 body {
-  font-family: "Oxygen", Helvetica, Arial, sans-serif;
+  font-family: "Noto Sans", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -33,6 +32,8 @@ body {
 
 a {
   text-decoration: none;
+  text-transform: uppercase;
+  color: $colorPrimary;
 }
 
 .container {
@@ -48,6 +49,7 @@ a {
   font-size: 1.1rem;
   text-transform: uppercase;
   font-weight: bold;
+  transition: all 400ms;
 
   &:hover {
     background: lighten($colorPrimary, 10);
