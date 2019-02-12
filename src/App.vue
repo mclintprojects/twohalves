@@ -34,6 +34,7 @@ a {
   text-decoration: none;
   text-transform: uppercase;
   color: $colorPrimary;
+  font-size: 1.2rem;
 }
 
 .container {
@@ -43,15 +44,17 @@ a {
 
 .button {
   background: $colorPrimary;
-  padding: 0.8rem 1.6rem;
+  padding: 1.2rem 1.6rem;
   border-radius: 3rem;
   color: white;
   font-size: 1.1rem;
   text-transform: uppercase;
   font-weight: bold;
+  border: none;
   transition: all 400ms;
 
   &:hover {
+    cursor: pointer;
     background: lighten($colorPrimary, 10);
   }
 }

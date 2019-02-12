@@ -9,10 +9,7 @@
       </div>
       <ul>
         <li>
-          <a href="/tutorial">How to use</a>
-        </li>
-        <li>
-          <a class="button" href="/start">Get started</a>
+          <a href="/start">How to use</a>
         </li>
       </ul>
     </nav>
@@ -21,7 +18,8 @@
       <h1 class="home-content__title">No more lonely days. Get coupled!</h1>
       <p
         class="home-content__description"
-      >Try to see if you can find your other half in the 6 minutes before your conversation disappears forever.</p>
+      >Two Halves is an ephemeral speed dating app. Try to see if you can find your other half in the 6 minutes before your conversation disappears forever.</p>
+      <button class="button">Get started</button>
     </section>
   </main>
 </template>
@@ -40,7 +38,7 @@ export default {};
 }
 
 .home-container {
-  background-color: #ffffff;
+  background-color: #faedf7;
 }
 
 .home-content {
@@ -51,12 +49,14 @@ export default {};
   &__title {
     font-size: 3rem;
     font-family: "Poppins";
+    font-weight: 700;
   }
 
   &__description {
     font-size: 1.6rem;
-    margin-top: 1.6rem;
+    margin-top: 0.8rem;
     color: $colorTextPrimaryLight;
+    margin-bottom: 2.4rem;
   }
 }
 
@@ -92,6 +92,27 @@ export default {};
       width: 2.4rem;
       height: 2.4rem;
     }
+  }
+}
+
+@media screen and(min-width: 76.8rem) {
+  .home-content {
+    top: 30%;
+    width: 50%;
+    margin: auto;
+
+    &__title {
+      font-size: 5rem;
+      width: 70%;
+    }
+
+    &__description {
+      width: 50%;
+    }
+  }
+
+  .illustration {
+    width: 50%;
   }
 }
 </style>
